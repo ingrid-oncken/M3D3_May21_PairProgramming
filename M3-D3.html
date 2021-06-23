@@ -9,6 +9,9 @@
         First of all: 
         Register on pexels to retrieve your API key: https://www.pexels.com/api/new/
 
+          Your API key: 563492ad6f91700001000001811d5150387345a682fa4088ed9c65af
+
+
         the key, once acquired, needs to go into the headers of your HTTP request with a property of 
         
         {Authorization: "Bearer [YOUR API KEY]"}
@@ -16,7 +19,7 @@
         this should be enough for you to make your GET request successfully
 
 
-        1) When pressing on Load Images button, load the pictures from https://api.pexels.com/v1/search?query=[your-query]
+        1) When pressing on Load Images button, load the pictures from [your-query]
         2) When pressing on Load Seconday Images, load the pictures from https://api.pexels.com/v1/search?query=[your-secondary-query]
         3) The Edit button should be replaced with a "Hide" button. 
         4) When the hide button is pressed, the whole picture card should disappear.
@@ -195,7 +198,12 @@
             them in a cool way!
           </p>
           <p>
-            <a href="#" class="btn btn-primary my-2">Load Images</a>
+            <a
+              onclick='fetchData("People")'
+              href="#"
+              class="btn btn-primary my-2"
+              >Load Images</a
+            >
             <a href="#" class="btn btn-secondary my-2">Load Secondary Images</a>
           </p>
         </div>
@@ -203,7 +211,7 @@
 
       <div class="album py-5 bg-light">
         <div class="container">
-          <div class="row">
+          <div id="myRow" class="row">
             <div class="col-md-4">
               <div class="card mb-4 shadow-sm">
                 <svg
@@ -646,5 +654,133 @@
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"
     ></script>
+    <script>
+      window.onload = () => {
+        // fetchData("People")
+      }
+
+      const myRow = document.getElementById("myRow")
+
+      const fetchData = (query) => {
+        fetch(`https://api.pexels.com/v1/search?query=${query}`, {
+          headers: {
+            Authorization:
+              "Bearer 563492ad6f91700001000001811d5150387345a682fa4088ed9c65af",
+          },
+        })
+          .then((resp) => {
+            return resp.json()
+          })
+          .then((data) => {
+            console.log(data.photos)
+            myRow.innerHTML = ""
+
+            data.photos.forEach((photo) => {
+              const card = `
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#55595c" />
+                <img src=${photo.src.tiny} />
+                                  </svg>
+                <div class="card-body">
+                  <p class="card-text">
+                    This is a wider card with supporting text below as a natural
+                    lead-in to additional content. This content is a little bit
+                    longer.
+                  </p>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div class="btn-group">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-secondary"
+                      >
+                        View
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-secondary"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+              `
+              myRow.innerHTML += card
+            })
+          })
+      }
+
+      //FETCH EXAMPLE
+      // const searchMusic = (query) => {
+      //     // fetch(url , options)
+      //     //options -> method, headers and body
+      //     //body -> only for POST (creation)
+      //     //headers -> "technical" options, like authorization, cookies options etc.
+      //     // fetch().then().then().then()
+      //     // .then() -> FIRES WHEN THE OPERATION IS SUCCESSFUL
+      //     // .catch() -> FIRES WHEN THE OPERATION FAILS
+      //     // .finally() -> ALWAYS FIRES
+      //     fetch(`https://deezerdevs-deezer.p.rapidapi.com/search?q=${query}`, {
+      //         "method": "GET",
+      //         "headers": {
+      //             "x-rapidapi-key": "2ecd7c2fb5msh0fa167f544e5b1fp16bf79jsnc31bc5a31efa", //custom header from rapidAPI
+      //             //Authorization: "Bearer xxxxxxxxxxxxxxxxxxxxxxxxx" <= Usually it looks like this
+      //             "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com" //from rapidAPI
+      //         }
+      //     })
+      //     .then(res => { //only fired when fetch is over and succefull
+      //         console.log(res);
+      //         //Expected result
+      //         /*
+      //         Response {
+      //             status: 200,
+      //             ok: true,
+      //             body: {...} -> ReadableStream
+      //         }
+      //         */
+      //        return res.json() //another long operation
+      //     })
+      //     .then((music)=> console.log(music.data)) // [......] <- You just DOM manip
+      //     .catch(err => { //taking errors and displays them
+      //         console.error(err);
+      //     })
+      //     .finally(()=> { //this will fire no matter what
+      //         console.log("Op completed")
+      //     })
+      // }
+      // searchMusic("eminem")
+
+      //       const container = document.querySelector(".container");
+      //       const cardTag;
+
+      //       function getPhotos(images) {
+      //               images.map(image => {
+      //      cardTag = `<div class="card">
+      //               <img src=${image.src.tiny} />
+      //          </div>`;
+      //      container.innerHTML += cardTag;
+      //    })
+      //           }fetch("https://api.pexels.com/v1/search?query=people",{
+      //             headers: {
+      //             Authorization: "YOUR_API_KEY"
+      //   }
+      // })
+      //    .then(resp => {
+      //      return resp.json()
+      //    })
+      //    .then(data => {
+      //      getPhotos(data.photos);
+      //    })
+
+      //https://us02web.zoom.us/j/89206843323?pwd=ZTNsbEMrTEtiMzlHUWZCQmdnb2M5QT09
+    </script>
   </body>
 </html>
